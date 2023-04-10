@@ -1,0 +1,25 @@
+@page
+@model TodoApi.Pages.Configurations.Index
+@{
+    ViewData["Title"] = "Configurações";
+}
+
+
+<div>
+    <ul class="flex border-b-2">
+        <li class="mr-1">
+            <a class="bg-white inline-block py-2 px-4 text-indigo-700 hover:text-blue-800 font-semibold rounded"
+                href="/Configurations/Tables">Mesas</a>
+        </li>
+        <li class="mr-1">
+            <a class="bg-white inline-block py-2 px-4 text-indigo-700 hover:text-blue-800 font-semibold rounded"
+                href="/Configurations/Waiters">Garçons</a>
+        </li>
+        <li class="mr-1">
+            <a class="bg-white inline-block py-2 px-4 text-indigo-700 hover:text-blue-800 font-semibold rounded"
+                href="/Configurations/Products">Produtos</a>
+        </li>
+    </ul>
+</div>
+
+<h1 class="text-center text-xl mt-10">Selecione uma das opções acima para continuar</h1>

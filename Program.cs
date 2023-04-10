@@ -1,5 +1,7 @@
+using TodoApi.Data.Repository;
+
 var builder = WebApplication.CreateBuilder(args);
-// builder.Services.AddDbContext<DbContext>();
+builder.Services.AddDbContext<Context>();
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 
