@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/gabrielrabelo/Documents/dev/tds-restaurant/TodoApi/TodoApi.csproj": {}
+    "/Users/gabrielrabelo/Documents/dev/tds-restaurant/TodoApi.csproj": {}
   },
   "projects": {
-    "/Users/gabrielrabelo/Documents/dev/tds-restaurant/TodoApi/TodoApi.csproj": {
+    "/Users/gabrielrabelo/Documents/dev/tds-restaurant/TodoApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/gabrielrabelo/Documents/dev/tds-restaurant/TodoApi/TodoApi.csproj",
+        "projectUniqueName": "/Users/gabrielrabelo/Documents/dev/tds-restaurant/TodoApi.csproj",
         "projectName": "TodoApi",
-        "projectPath": "/Users/gabrielrabelo/Documents/dev/tds-restaurant/TodoApi/TodoApi.csproj",
+        "projectPath": "/Users/gabrielrabelo/Documents/dev/tds-restaurant/TodoApi.csproj",
         "packagesPath": "/Users/gabrielrabelo/.nuget/packages/",
-        "outputPath": "/Users/gabrielrabelo/Documents/dev/tds-restaurant/TodoApi/obj/",
+        "outputPath": "/Users/gabrielrabelo/Documents/dev/tds-restaurant/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/gabrielrabelo/.nuget/NuGet/NuGet.Config"
@@ -42,6 +42,16 @@
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
               "version": "[7.0.3, )"
+            },
+            "Microsoft.EntityFrameworkCore.Sqlite": {
+              "target": "Package",
+              "version": "[7.0.4, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[7.0.4, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
