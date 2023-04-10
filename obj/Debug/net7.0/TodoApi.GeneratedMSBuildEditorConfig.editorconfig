@@ -16,8 +16,12 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = /Users/gabrielrabelo/Documents/dev/tds-restaurant
 build_property._RazorSourceGeneratorDebug = 
 
-[/Users/gabrielrabelo/Documents/dev/tds-restaurant/Pages/Shared/Teste.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXMvU2hhcmVkL1Rlc3RlLnJhem9y
+[/Users/gabrielrabelo/Documents/dev/tds-restaurant/Pages/_Imports.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvX0ltcG9ydHMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/gabrielrabelo/Documents/dev/tds-restaurant/Pages/Components/Button.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ29tcG9uZW50cy9CdXR0b24uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [/Users/gabrielrabelo/Documents/dev/tds-restaurant/Pages/Index.cshtml]
