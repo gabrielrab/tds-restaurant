@@ -2,7 +2,7 @@
 
 <!DOCTYPE html>
 
-<html>
+<html class="h-full m-full p-0 m-0">
 
 <head>
   <meta name="viewport" content="width=device-width" />
@@ -10,20 +10,18 @@
   <title>@ViewBag.Title</title>
 </head>
 
-<body class="flex flex-col h-screen justify-between bg-slate-50">
-  <div>
-    @await Component.InvokeAsync("Header")
+<body class="flex flex-col h-full m-full p-0 m-0 bg-slate-100">
+  @await Component.InvokeAsync("Header")
 
-    <main>
-      <div class="m-4">
-        <h1 class="text-xl font-medium pb-6">@ViewData["Title"]</h1>
-        @RenderBody()
-      </div>
+  <main class="flex-auto flex-col">
+    <div class="m-4">
+      <h1 class="text-xl font-medium pb-6">@ViewData["Title"]</h1>
+      @RenderBody()
+    </div>
 
-    </main>
+  </main>
 
-    @await Component.InvokeAsync("Footer")
-  </div>
+  @await Component.InvokeAsync("Footer")
 </body>
 
 </html>
