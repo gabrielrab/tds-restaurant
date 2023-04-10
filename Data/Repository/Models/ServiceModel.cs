@@ -4,8 +4,13 @@ namespace TodoApi.Data.Repository.Models
     {
         public int Id { get; set; }
         public int TableId { get; set; }
-        public int? WaiterId { get; set; }
 
         public List<ProductModel>? Products { get; set; }
+
+        public WaiterModel? Waiter { get; set; }
+
+        public DateTime StartAt { get; set; } = default!;
+
+        public DateTime EndAt { get; set; } = default!;
     }
 }
