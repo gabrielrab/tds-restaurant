@@ -1,0 +1,59 @@
+@page "{id:int}"
+@model TodoApi.Pages.Configurations.Categories.Edit
+@{
+    ViewData["Title"] = "Editando Mesa " + @Model.category!.Name;
+}
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<form method="post">
+    <div class="mb-6 mt-6">
+        <input type="text" asp-for="category!.Name" placeholder="Nome da categoria" class="
+                        w-full
+                        rounded-md
+                        border
+                        bordder-[#E9EDF4]
+                        py-3
+                        px-5
+                        bg-[#FCFDFE]
+                        text-base text-body-color
+                        placeholder-[#ACB6BE]
+                        outline-none
+                        focus-visible:shadow-none
+                        focus:border-primary
+                        " />
+    </div>
+    <div class="mb-6 mt-6">
+        <input type="text" asp-for="category!.Description" placeholder="Descrição da categoria" class="
+                        w-full
+                        rounded-md
+                        border
+                        bordder-[#E9EDF4]
+                        py-3
+                        px-5
+                        bg-[#FCFDFE]
+                        text-base text-body-color
+                        placeholder-[#ACB6BE]
+                        outline-none
+                        focus-visible:shadow-none
+                        focus:border-primary
+                        " />
+    </div>
+    <div class="mb-10">
+        <input type="hidden" asp-for="category!.Id" />
+        <button type="submit" value="@Model.category.Id" class="
+                        w-full
+                        rounded-md
+                        border
+                        bordder-primary
+                        py-3
+                        px-5
+                        bg-indigo-500 
+                        hover:bg-indigo-600 
+                        text-white 
+                        font-semibold
+                        cursor-pointer
+                        hover:bg-opacity-90
+                        transition
+                        ">Editar</button>
+    </div>
+</form>

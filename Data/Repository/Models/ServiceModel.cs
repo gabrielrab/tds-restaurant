@@ -4,8 +4,10 @@ namespace TodoApi.Data.Repository.Models
     {
         public int Id { get; set; }
         public int TableId { get; set; }
-        public int? WaiterId { get; set; }
+
+        public TableModel? Table { get; set; }
 
         public List<ProductModel>? Products { get; set; }
+        public List<WaiterModel>? Waiters { get; set; }
     }
 }
