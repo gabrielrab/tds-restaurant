@@ -1,0 +1,42 @@
+@page
+@model TodoApi.Pages.OrderDetails.OrderDetail
+@{
+    ViewData["Title"] = "Resumo do Pedido";
+}
+
+
+<div>
+    <div class="p10 bg-slate-100">
+        <div>
+            <p>
+                Pedidos
+            </p>
+            @if(Model.products.Any()){
+                <ol>
+                <li>
+                    @foreach (var item in Model.products)
+                {
+                    <p>@item.Id.ToString()</p>
+                    <p>@item.Name</p> 
+                    <p>@item.Price.ToString()</p>
+                @if(item.Categories.Any()){
+                    @foreach (var category in item.Categories)
+                {
+                    <p>@category.Name</p>
+                }
+                }
+                else{}
+                }
+                </li>
+            </ol>
+            <a href="/closepage"
+                class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">
+                Visão geral</a>
+            }
+            else{
+                <p>Sem pedidos cadastrados</p>
+            }
+
+        </div>
+    </div>
+</div>
