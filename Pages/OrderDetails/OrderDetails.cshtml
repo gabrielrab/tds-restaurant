@@ -12,20 +12,27 @@
                 Pedidos da mesa @Model.table.Id
             </p>
             @if(Model.products.Any()){
-                <ol>
-                <li>
+                <ol class="w-96">
+                <li class="w-full border-b-2 border-neutral-100 border-opacity-100 py-4 dark:border-opacity-50 hover:bg-neutral-100 hover:text-neutral-500 focus:bg-neutral-100 focus:text-neutral-500 focus:ring-0 dark:hover:bg-neutral-600 dark:hover:text-neutral-200 dark:focus:bg-neutral-600 dark:focus:text-neutral-200">
                     @foreach (var item in Model.products)
                 {
+                    <div style="display: flex; justify-content: space-between">
                     <p>@item.Id.ToString()</p>
                     <p>@item.Name</p> 
                     <p>@item.Price.ToString()</p>
                     <p>@item.Category.Name</p>
+                    </div>
                 }
                 </li>
                 </ol>
-            <a href="/closepage?id=@Model.table.Id"
-                class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">
-                Fechar Pedido</a>
+
+             <a href="/CloseService?id=@Model.table.Id" 
+                type="button"
+                class="-ml-0.5 inline-block border-2 border-primary px-6 pb-[6px] pt-2 text-xs font-medium uppercase leading-normal text-primary transition duration-150 ease-in-out hover:border-primary-600 hover:bg-neutral-500 hover:bg-opacity-10 hover:text-primary-600 focus:border-primary-600 focus:text-primary-600 focus:outline-none focus:ring-0 active:border-primary-700 active:text-primary-700 dark:hover:bg-neutral-100 dark:hover:bg-opacity-10"
+                data-te-ripple-init
+                data-te-ripple-color="light">
+                Fechar Pedido
+            </a>
                 }
             else{
                 <p>Sem pedidos cadastrados</p>
