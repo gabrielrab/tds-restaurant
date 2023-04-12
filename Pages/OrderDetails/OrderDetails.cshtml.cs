@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using TodoApi.Data.Repository;
 using TodoApi.Data.Repository.Models;
@@ -28,7 +29,8 @@ namespace TodoApi.Pages.OrderDetails
 
         public void OnGet(int id)
         {
-            var tableModel = context.TableModel?.Find(id);
+            
+            var tableModel = context.TableModel?.Include(p => p.Services).FirstOrDefault(p => p.Id == id);
 
             if (tableModel != null)
             {
@@ -36,7 +38,7 @@ namespace TodoApi.Pages.OrderDetails
             }
 
 
-            service = tableModel?.Service;
+            service = tableModel?.Services.Last();
         
             products = service?.Products;
             

@@ -19,13 +19,7 @@
                     <p>@item.Id.ToString()</p>
                     <p>@item.Name</p> 
                     <p>@item.Price.ToString()</p>
-                @if(item.Categories.Any()){
-                    @foreach (var category in item.Categories)
-                {
-                    <p>@category.Name</p>
-                }
-                }
-                else{}
+                    <p>@item.Category.Name</p>
                 }
                 </li>
                 </ol>
