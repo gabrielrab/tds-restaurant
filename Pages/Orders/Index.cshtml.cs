@@ -19,6 +19,7 @@ public class Index : PageModel
         public List<CategoryModel> categories = new();
         public List<ProductModel> products = new();
         public List<WaiterModel> waiters = new();
+        public List<TableModel> tables = new();
 
 
         public void OnGet()
@@ -26,6 +27,7 @@ public class Index : PageModel
             categories = context.CategoryModel?.ToList() ?? new List<CategoryModel>();
             products = context.ProductModel?.ToList() ?? new List<ProductModel>();
             waiters = context.WaiterModel?.ToList() ?? new List<WaiterModel>();
+            tables = context.TableModel?.ToList() ?? new List<TableModel>();
         }
     }
 }
