@@ -1,0 +1,91 @@
+@page "{id:int}"
+@model TodoApi.Pages.Configurations.Products.Edit
+@{
+    ViewData["Title"] = "Editando produto " + @Model.products!.Name;
+}
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<form method="post">
+    <div class="mb-6">
+        <input type="text" asp-for="products!.Name" placeholder="Nome" class="
+                        w-full
+                        rounded-md
+                        border
+                        bordder-[#E9EDF4]
+                        py-3
+                        px-5
+                        bg-[#FCFDFE]
+                        text-base text-body-color
+                        placeholder-[#ACB6BE]
+                        outline-none
+                        focus-visible:shadow-none
+                        focus:border-primary
+                        " />
+    </div>
+    <div class="mb-6">
+        <input type="text" asp-for="products!.Description" placeholder="Descrição" class="
+                        w-full
+                        rounded-md
+                        border
+                        bordder-[#E9EDF4]
+                        py-3
+                        px-5
+                        bg-[#FCFDFE]
+                        text-base text-body-color
+                        placeholder-[#ACB6BE]
+                        outline-none
+                        focus-visible:shadow-none
+                        focus:border-primary
+                        " />
+    </div>
+    <div class="mb-6">
+        <input type="text" asp-for="products!.Price" placeholder="Preço" class="
+                        w-full
+                        rounded-md
+                        border
+                        bordder-[#E9EDF4]
+                        py-3
+                        px-5
+                        bg-[#FCFDFE]
+                        text-base text-body-color
+                        placeholder-[#ACB6BE]
+                        outline-none
+                        focus-visible:shadow-none
+                        focus:border-primary
+                        " />
+    </div>
+    <div class="mb-6">
+        <select asp-for="SelectedCategory" asp-items="Model.categories" class="w-full
+                        rounded-md
+                        border
+                        bordder-[#E9EDF4]
+                        py-3
+                        px-5
+                        bg-[#FCFDFE]
+                        text-base text-body-color
+                        placeholder-[#ACB6BE]
+                        outline-none
+                        focus-visible:shadow-none
+                        focus:border-primary">
+
+        </select>
+    </div>
+    <div class="mb-10">
+        <input type="hidden" asp-for="products!.Id" />
+        <button type="submit" value="@Model.products.Id" class="
+                        w-full
+                        rounded-md
+                        border
+                        bordder-primary
+                        py-3
+                        px-5
+                        bg-indigo-500 
+                        hover:bg-indigo-600 
+                        text-white 
+                        font-semibold
+                        cursor-pointer
+                        hover:bg-opacity-90
+                        transition
+                        ">Editar</button>
+    </div>
+</form>
