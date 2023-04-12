@@ -1,4 +1,4 @@
-@page
+@page 
 @model Pages.Index
 @{
     ViewData["Title"] = "Registrar pedidos em uma mesa";
@@ -9,10 +9,11 @@
     {
         @foreach (var table in Model.tables)
         {
-            
+            <a href="/orderdetails?id=@table.Id">
             <div class="w-fit h-fit p-8 border-2 @table.Status == true ? bg-orange-400 : bg-slate-800  rounded">
             <p>Mesa @table.Id</p>
-            </div>  
+            </div>
+            </a>  
             
         }  
     }

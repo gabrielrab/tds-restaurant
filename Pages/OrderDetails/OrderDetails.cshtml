@@ -1,4 +1,4 @@
-@page
+@page "{id:int}"
 @model TodoApi.Pages.OrderDetails.OrderDetail
 @{
     ViewData["Title"] = "Resumo do Pedido";
@@ -9,7 +9,7 @@
     <div class="p10 bg-slate-100">
         <div>
             <p>
-                Pedidos
+                Pedidos da mesa @Model.table.Id
             </p>
             @if(Model.products.Any()){
                 <ol>
@@ -28,14 +28,14 @@
                 else{}
                 }
                 </li>
-            </ol>
-            <a href="/closepage"
+                </ol>
+            <a href="/closepage?id=@Model.table.Id"
                 class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">
-                Visão geral</a>
-            }
+                Fechar Pedido</a>
+                }
             else{
                 <p>Sem pedidos cadastrados</p>
-            }
+                 }
 
         </div>
     </div>
