@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TodoApi.Data.Repository;
 
@@ -10,42 +11,14 @@ using TodoApi.Data.Repository;
 namespace TodoApi.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20230411003400_UpdatedEntities")]
+    partial class UpdatedEntities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.4");
-
-            modelBuilder.Entity("ProductModelServiceModel", b =>
-                {
-                    b.Property<int>("ProductsId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("ServicesId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("ProductsId", "ServicesId");
-
-                    b.HasIndex("ServicesId");
-
-                    b.ToTable("ProductModelServiceModel");
-                });
-
-            modelBuilder.Entity("ServiceModelWaiterModel", b =>
-                {
-                    b.Property<int>("ServicesId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("WaitersId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("ServicesId", "WaitersId");
-
-                    b.HasIndex("WaitersId");
-
-                    b.ToTable("ServiceModelWaiterModel");
-                });
 
             modelBuilder.Entity("TodoApi.Data.Repository.Models.CategoryModel", b =>
                 {
@@ -61,7 +34,12 @@ namespace TodoApi.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<int?>("ProductModelId")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("ProductModelId");
 
                     b.ToTable("CategoryModel");
                 });
@@ -70,9 +48,6 @@ namespace TodoApi.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("CategoryId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Description")
@@ -86,9 +61,12 @@ namespace TodoApi.Migrations
                     b.Property<double>("Price")
                         .HasColumnType("REAL");
 
+                    b.Property<int?>("ServiceModelId")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryId");
+                    b.HasIndex("ServiceModelId");
 
                     b.ToTable("ProductModel");
                 });
@@ -99,18 +77,13 @@ namespace TodoApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("EndAt")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("StartAt")
-                        .HasColumnType("TEXT");
-
                     b.Property<int>("TableId")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("Id");
+                    b.Property<int?>("WaiterId")
+                        .HasColumnType("INTEGER");
 
-                    b.HasIndex("TableId");
+                    b.HasKey("Id");
 
                     b.ToTable("ServiceModel");
                 });
@@ -131,8 +104,6 @@ namespace TodoApi.Migrations
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ServiceId");
 
                     b.ToTable("TableModel");
                 });
@@ -163,84 +134,28 @@ namespace TodoApi.Migrations
                     b.ToTable("WaiterModel");
                 });
 
-            modelBuilder.Entity("ProductModelServiceModel", b =>
+            modelBuilder.Entity("TodoApi.Data.Repository.Models.CategoryModel", b =>
                 {
                     b.HasOne("TodoApi.Data.Repository.Models.ProductModel", null)
-                        .WithMany()
-                        .HasForeignKey("ProductsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TodoApi.Data.Repository.Models.ServiceModel", null)
-                        .WithMany()
-                        .HasForeignKey("ServicesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("ServiceModelWaiterModel", b =>
-                {
-                    b.HasOne("TodoApi.Data.Repository.Models.ServiceModel", null)
-                        .WithMany()
-                        .HasForeignKey("ServicesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TodoApi.Data.Repository.Models.WaiterModel", null)
-                        .WithMany()
-                        .HasForeignKey("WaitersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("TodoApi.Data.Repository.Models.ServiceModel", b =>
-                {
-                    b.HasOne("TodoApi.Data.Repository.Models.WaiterModel", "Waiter")
-                        .WithMany()
-                        .HasForeignKey("WaiterId");
-
-                    b.Navigation("Waiter");
-                });
-
-            modelBuilder.Entity("TodoApi.Data.Repository.Models.TableModel", b =>
-                {
-                    b.HasOne("TodoApi.Data.Repository.Models.ServiceModel", "Service")
-                        .WithMany()
-                        .HasForeignKey("ServiceId");
-
-                    b.Navigation("Service");
+                        .WithMany("Categories")
+                        .HasForeignKey("ProductModelId");
                 });
 
             modelBuilder.Entity("TodoApi.Data.Repository.Models.ProductModel", b =>
                 {
-                    b.HasOne("TodoApi.Data.Repository.Models.CategoryModel", "Category")
+                    b.HasOne("TodoApi.Data.Repository.Models.ServiceModel", null)
                         .WithMany("Products")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ServiceModelId");
+                });
 
-                    b.Navigation("Category");
+            modelBuilder.Entity("TodoApi.Data.Repository.Models.ProductModel", b =>
+                {
+                    b.Navigation("Categories");
                 });
 
             modelBuilder.Entity("TodoApi.Data.Repository.Models.ServiceModel", b =>
                 {
-                    b.HasOne("TodoApi.Data.Repository.Models.TableModel", "Table")
-                        .WithMany("Services")
-                        .HasForeignKey("TableId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Table");
-                });
-
-            modelBuilder.Entity("TodoApi.Data.Repository.Models.CategoryModel", b =>
-                {
                     b.Navigation("Products");
-                });
-
-            modelBuilder.Entity("TodoApi.Data.Repository.Models.TableModel", b =>
-                {
-                    b.Navigation("Services");
                 });
 #pragma warning restore 612, 618
         }

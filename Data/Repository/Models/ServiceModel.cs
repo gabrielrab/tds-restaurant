@@ -7,10 +7,12 @@ namespace TodoApi.Data.Repository.Models
 
         public List<ProductModel>? Products { get; set; }
 
-        public WaiterModel? Waiter { get; set; }
-
         public DateTime StartAt { get; set; } = default!;
 
         public DateTime EndAt { get; set; } = default!;
+
+        public TableModel? Table { get; set; }
+
+        public List<WaiterModel>? Waiters { get; set; }
     }
 }

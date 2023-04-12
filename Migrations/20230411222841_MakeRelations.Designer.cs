@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TodoApi.Data.Repository;
 
@@ -10,9 +11,11 @@ using TodoApi.Data.Repository;
 namespace TodoApi.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20230411222841_MakeRelations")]
+    partial class MakeRelations
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.4");
@@ -99,12 +102,6 @@ namespace TodoApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("EndAt")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("StartAt")
-                        .HasColumnType("TEXT");
-
                     b.Property<int>("TableId")
                         .HasColumnType("INTEGER");
 
@@ -131,8 +128,6 @@ namespace TodoApi.Migrations
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ServiceId");
 
                     b.ToTable("TableModel");
                 });
@@ -191,24 +186,6 @@ namespace TodoApi.Migrations
                         .HasForeignKey("WaitersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("TodoApi.Data.Repository.Models.ServiceModel", b =>
-                {
-                    b.HasOne("TodoApi.Data.Repository.Models.WaiterModel", "Waiter")
-                        .WithMany()
-                        .HasForeignKey("WaiterId");
-
-                    b.Navigation("Waiter");
-                });
-
-            modelBuilder.Entity("TodoApi.Data.Repository.Models.TableModel", b =>
-                {
-                    b.HasOne("TodoApi.Data.Repository.Models.ServiceModel", "Service")
-                        .WithMany()
-                        .HasForeignKey("ServiceId");
-
-                    b.Navigation("Service");
                 });
 
             modelBuilder.Entity("TodoApi.Data.Repository.Models.ProductModel", b =>
