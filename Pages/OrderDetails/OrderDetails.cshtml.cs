@@ -40,7 +40,7 @@ namespace TodoApi.Pages.OrderDetails
 
             service = tableModel?.Services.Last();
         
-            products = service?.Products;
+            // products = service?.Products;
             
         }
     }

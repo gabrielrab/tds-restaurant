@@ -28,7 +28,5 @@ namespace TodoApi.Data.Repository.Models
 
         [Required(ErrorMessage = "O telefone do garçom é obrigatório")]
         public string Phone { get; set; } = default!;
-
-        public List<ServiceModel>? Services { get; set; }
     }
 }

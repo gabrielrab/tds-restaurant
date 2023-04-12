@@ -12,6 +12,7 @@ namespace TodoApi.Data.Repository
         public DbSet<ServiceModel>? ServiceModel { get; set; }
         public DbSet<TableModel>? TableModel { get; set; }
         public DbSet<WaiterModel>? WaiterModel { get; set; }
+        public DbSet<ServiceLineModel>? ServiceLines { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
             => options.UseSqlite("DataSource=app.db;Cache=Shared");
