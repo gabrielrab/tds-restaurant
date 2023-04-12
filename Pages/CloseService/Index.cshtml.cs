@@ -15,15 +15,17 @@ namespace TodoApi.Pages.CloseService
     public class CloseService : PageModel
     {
 
+        public int serviceID {get; set;}
+
         private readonly Context context;
 
         public CloseService(Context context){
             this.context = context;
         }
 
-        public TableModel? table;
+        public TableModel? table {get; set;}
 
-        public ServiceModel? service;
+        public ServiceModel? service {get; set;}
         public void OnGet(int id)
         {
 
@@ -33,7 +35,9 @@ namespace TodoApi.Pages.CloseService
             if (tableModel != null)
             {
                 this.table = tableModel;
-                service = table.Services.Last();
+                serviceID = table.Services.LastOrDefault().Id;
+                Console.WriteLine(serviceID);
+                service = context.ServiceModel?.Include(p => p.ServiceLines).FirstOrDefault(p => p.Id == serviceID);
             }
 
             table.Status = false;
