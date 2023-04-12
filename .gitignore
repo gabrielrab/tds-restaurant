@@ -918,3 +918,9 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+Migrations/*
+!Migrations/.gitkeep
+
+app.db
+app.db-*
