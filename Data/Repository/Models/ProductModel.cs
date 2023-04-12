@@ -31,7 +31,5 @@ namespace TodoApi.Data.Repository.Models
         public int? CategoryId { get; set; }
 
         public CategoryModel? Category { get; set; }
-
-        public List<ServiceModel>? Services { get; set; }
     }
 }
