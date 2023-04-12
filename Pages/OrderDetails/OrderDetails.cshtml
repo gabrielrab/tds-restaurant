@@ -4,53 +4,116 @@
     ViewData["Title"] = "Resumo do Pedido";
 }
 
-
 <div>
     <div class="p10 bg-slate-100">
         <div>
-            <a href="/CloseService?id=@Model.table.Id" 
-                type="button"
-                class="-ml-0.5 inline-block border-2 border-primary px-6 pb-[6px] pt-2 text-xs font-medium uppercase leading-normal text-primary transition duration-150 ease-in-out hover:border-primary-600 hover:bg-neutral-500 hover:bg-opacity-10 hover:text-primary-600 focus:border-primary-600 focus:text-primary-600 focus:outline-none focus:ring-0 active:border-primary-700 active:text-primary-700 dark:hover:bg-neutral-100 dark:hover:bg-opacity-10"
-                data-te-ripple-init
-                data-te-ripple-color="light">
-                Acicionar Produto
-               </a>
-            <p>
-                Pedidos da mesa @Model.table.Id
-            </p>
-            @if(Model.products.Any()){
-                <ol class="w-96">
-                <li class="w-full border-b-2 border-neutral-100 border-opacity-100 py-4 dark:border-opacity-50 hover:bg-neutral-100 hover:text-neutral-500 focus:bg-neutral-100 focus:text-neutral-500 focus:ring-0 dark:hover:bg-neutral-600 dark:hover:text-neutral-200 dark:focus:bg-neutral-600 dark:focus:text-neutral-200">
-                    @foreach (var item in Model.products)
-                {
-                    <div style="display: flex; justify-content: space-between">
-                    <p>@item.Id.ToString()</p>
-                    <p>@item.Name</p> 
-                    <p>@item.Price.ToString()</p>
-                    <p>@item.Category.Name</p>
+            <a href="">
+                        <button
+                            class="bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2 px-4 rounded inline-flex items-center">
+                            <span>Adicionar Pedido</span>
+                        </button>
+            </a>
+
+        @if(Model.service.Any()){    
+
+    <section class="antialiased bg-gray-100 text-gray-600 p-4">
+        <div class="flex flex-col justify-center h-full">
+            <div class="w-full  mx-auto bg-white shadow-lg rounded-xl border border-gray-200">
+                <header class="px-5 py-4 border-b border-gray-100 flex justify-between">
+                    <h2 class="font-semibold text-gray-800">Pedidos</h2>
+                </header>
+                <div class="p-3">
+                    <div class="overflow-x-auto">
+                        <table class="table-auto w-full">
+                            <thead class="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
+                                <tr>
+                                    <th class="p-2 whitespace-nowrap">
+                                        <div class="font-semibold text-left">Id</div>
+                                    </th>
+
+                                    <th class="p-2 whitespace-nowrap">
+                                        <div class="font-semibold text-left">Nome</div>
+                                    </th>
+                                    <th class="p-2 whitespace-nowrap">
+                                        <div class="font-semibold text-left">Garçom</div>
+                                    </th>
+                                    <th class="p-2 whitespace-nowrap">
+                                        <div class="font-semibold text-left">Produto</div>
+                                    </th>
+                                    <th class="p-2 whitespace-nowrap">
+                                        <div class="font-semibold text-left">Categoria</div>
+                                    </th>
+                                    <th class="p-2 whitespace-nowrap">
+                                        <div class="font-semibold text-center">Preço</div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            @if (Model.products.Any())
+                            {
+                                <tbody class="text-sm divide-y divide-gray-100">
+                                    @foreach (var item in Model.)
+                                    {
+                                        <tr>
+                                            <td class="p-2 whitespace-nowrap">
+                                                <div class="text-left">#@item.Id</div>
+                                            </td>
+                                            <td class="p-2 whitespace-nowrap">
+                                                <div class="text-left">@item.Name</div>
+                                            </td>
+                                            <td class="p-2 whitespace-nowrap">
+                                                <div class="text-left">@item.Description</div>
+                                            </td>
+                                            <td class="p-2 whitespace-nowrap">
+                                                <div class="text-left">@item.Price</div>
+                                            </td>
+                                            <td class="p-2 whitespace-nowrap ">
+                                                <div class="text-center">@item.Category?.Name</div>
+                                            </td>
+                                            <td class="p-2 whitespace-nowrap ">
+                                                <div class="text-center">@item.Category?.Name</div>
+                                            </td>
+                                        </tr>
+                                    }
+
+                                    <tr>
+                                            <td class="p-2 whitespace-nowrap">
+                                                <div class="text-left">Total</div>
+                                            </td>
+                                        
+                                            <td class="p-2 whitespace-nowrap">
+                                                <div class="text-left"> Preço total </div>
+                                            </td>
+                                    </tr>
+                                    
+                                </tbody>
+                            }
+                        </table>
                     </div>
-                }
-                </li>
-                </ol>
+                </div>
+            </div>
+        </div>
+    </section> 
 
                 <div style="display: flex; justify-content: space-between">
-                    <p>Total</p>
+                    
                     <p></p>
                 </div>
 
                 
 
-             <a href="/CloseService?id=@Model.table.Id" 
-                type="button"
-                class="-ml-0.5 inline-block border-2 border-primary px-6 pb-[6px] pt-2 text-xs font-medium uppercase leading-normal text-primary transition duration-150 ease-in-out hover:border-primary-600 hover:bg-neutral-500 hover:bg-opacity-10 hover:text-primary-600 focus:border-primary-600 focus:text-primary-600 focus:outline-none focus:ring-0 active:border-primary-700 active:text-primary-700 dark:hover:bg-neutral-100 dark:hover:bg-opacity-10"
-                data-te-ripple-init
-                data-te-ripple-color="light">
-                Fechar Pedido
+             <a href="">
+                        <button
+                            class="bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2 px-4 rounded inline-flex items-center">
+                            <span>Fechar Pedido</span>
+                        </button>
             </a>
-                }
+            } 
             else{
                 <p>Sem pedidos cadastrados</p>
-                 }
+            } 
+           
+           
+                 
 
         </div>
     </div>

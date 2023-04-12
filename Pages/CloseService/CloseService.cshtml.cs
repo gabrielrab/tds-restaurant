@@ -37,7 +37,7 @@ namespace TodoApi.Pages.CloseService
             }
 
             table.Status = false;
-            service.EndAt.ToLocalTime();
+            service.EndAt = DateTime.Now;
 
             context.TableModel.Update(table);
             context.ServiceModel.Update(service);
