@@ -10,26 +10,29 @@ using TodoApi.Data.Repository.Models;
 
 namespace TodoApi.Pages.Orders
 {
-public class Index : PageModel
+    public class Index : PageModel
     {
         private readonly Context context;
 
         public Index(Context context)
         {
             this.context = context;
-             
+
             var tables = context.TableModel?.ToList() ?? new List<TableModel>();
-            foreach (var table in tables ?? new ()) {
+            foreach (var table in tables ?? new())
+            {
                 this.tables.Add(new SelectListItem($"Mesa {table.Code.ToString()}", table.Id.ToString()));
             }
 
             var waiters = context.WaiterModel?.ToList() ?? new List<WaiterModel>();
-            foreach (var waiter in waiters ?? new ()) {
+            foreach (var waiter in waiters ?? new())
+            {
                 this.waiters.Add(new SelectListItem($"{waiter.FirstName} {waiter.LastName}", waiter.Id.ToString()));
             }
 
             var products = context.ProductModel?.ToList() ?? new List<ProductModel>();
-            foreach (var product in products ?? new ()) {
+            foreach (var product in products ?? new())
+            {
                 this.products.Add(new SelectListItem($"{product.Name} - R${product.Price},00", product.Id.ToString()));
             }
         }
@@ -51,37 +54,47 @@ public class Index : PageModel
         public IActionResult OnPost()
         {
             var table = context.TableModel?.Include(p => p.Services).FirstOrDefault(p => p.Id == TableId);
-            if (table!.Status) {
-                var service_id = table.Services.LastOrDefault().Id;     
+            if (table!.Status)
+            {
+                var service_id = table.Services.LastOrDefault().Id;
 
-                int id = 0;
+                int id = 1;
                 var lastService = context.ServiceLines?.OrderByDescending(p => p.Id).FirstOrDefault();
                 if (lastService != null)
                 {
                     id = lastService.Id + 1;
                 }
+
+                Console.WriteLine($"id: {id}, service_id: {service_id}, TableId: {TableId}, WaiterId: {WaiterId}, ProductId: {ProductId}, Quantity: {Quantity}");
+
                 context.ServiceLines?.Add(new ServiceLineModel(id, service_id, TableId, WaiterId, ProductId, Quantity));
                 context.SaveChanges();
-            } else {
-                int service_id = 0;
+            }
+            else
+            {
+                int service_id = 1;
                 var lastService = context.ServiceModel?.OrderByDescending(p => p.Id).FirstOrDefault();
                 if (lastService != null)
                 {
                     service_id = lastService.Id + 1;
                 }
-                context.ServiceModel.Add(new ServiceModel(service_id, TableId, DateTime.Now, null));
-                
+
+                Console.WriteLine($"service_id: {service_id}, TableId: {TableId}, WaiterId: {WaiterId}, ProductId: {ProductId}, Quantity: {Quantity}");
+                context.ServiceModel?.Add(new ServiceModel(service_id, TableId, DateTime.Now, null));
+
                 table.Status = true;
-                context.TableModel.Update(table);
-                
+                context.TableModel?.Update(table);
+
                 context.SaveChanges();
-                // ...
-                int serviceLineId = 0;
+
+                int serviceLineId = 1;
                 var lastServiceLine = context.ServiceLines?.OrderByDescending(p => p.Id).FirstOrDefault();
                 if (lastServiceLine != null)
                 {
                     serviceLineId = lastServiceLine.Id + 1;
                 }
+
+                Console.WriteLine($"id: {serviceLineId}, service_id: {service_id}, TableId: {TableId}, WaiterId: {WaiterId}, ProductId: {ProductId}, Quantity: {Quantity}");
                 context.ServiceLines?.Add(new ServiceLineModel(serviceLineId, service_id, TableId, WaiterId, ProductId, Quantity));
                 context.SaveChanges();
             }
