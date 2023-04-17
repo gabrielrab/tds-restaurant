@@ -50,7 +50,7 @@ namespace TodoApi.Pages.OrderDetails
 
                     foreach(var item in serviceLines){
                         var Service_Lines = context.ServiceLines.Include(s => s.Product).FirstOrDefault(s => s.ServiceId == serviceID);
-                        total = total +(Service_Lines.Product.Price * item.qty);
+                        total = total +(Service_Lines.Product.Price * item.Quantity);
             }
                 }
             }

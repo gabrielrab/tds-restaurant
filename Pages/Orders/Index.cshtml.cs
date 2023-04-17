@@ -46,7 +46,7 @@ public class Index : PageModel
         public int WaiterId { get; set; }
 
         [BindProperty]
-        public int qty { get; set; }
+        public int Quantity { get; set; }
 
         public IActionResult OnPost()
         {
@@ -60,7 +60,7 @@ public class Index : PageModel
                 {
                     id = lastService.Id + 1;
                 }
-                context.ServiceLines?.Add(new ServiceLineModel(id, service_id, TableId, WaiterId, ProductId, qty));
+                context.ServiceLines?.Add(new ServiceLineModel(id, service_id, TableId, WaiterId, ProductId, Quantity));
                 context.SaveChanges();
             } else {
                 int service_id = 0;
@@ -82,7 +82,7 @@ public class Index : PageModel
                 {
                     serviceLineId = lastServiceLine.Id + 1;
                 }
-                context.ServiceLines?.Add(new ServiceLineModel(serviceLineId, service_id, TableId, WaiterId, ProductId, qty));
+                context.ServiceLines?.Add(new ServiceLineModel(serviceLineId, service_id, TableId, WaiterId, ProductId, Quantity));
                 context.SaveChanges();
             }
             return Page();

@@ -6,13 +6,13 @@ namespace TodoApi.Data.Repository.Models
 
         }
 
-        public ServiceLineModel (int id, int serviceId, int tableId, int waiterId, int productId, int qty){
+        public ServiceLineModel (int id, int serviceId, int tableId, int waiterId, int productId, int Quantity){
             this.Id = id;
             this.ServiceId = serviceId;
             this.TableId = tableId;
             this.WaiterId = waiterId;
             this.ProductId = productId;
-            this.qty = qty;
+            this.Quantity = Quantity;
         }
         public int Id { get; set; }
         public int ServiceId { get; set; }
@@ -23,7 +23,7 @@ namespace TodoApi.Data.Repository.Models
         public ProductModel? Product { get; set; }
         public int WaiterId { get; set; }
         public WaiterModel? Waiter { get; set; }
-        public int qty { get; set; }
+        public int Quantity { get; set; }
 
     }
 }
