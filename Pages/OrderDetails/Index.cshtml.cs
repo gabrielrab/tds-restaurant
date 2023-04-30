@@ -33,7 +33,7 @@ namespace TodoApi.Pages.OrderDetails
 
         public void OnGet(int? id)
         {
-            Console.WriteLine(id);
+
             var tableModel = context.TableModel?.Include(p => p.Services).FirstOrDefault(p => p.Id == id);
           
             if (tableModel != null)
@@ -42,10 +42,8 @@ namespace TodoApi.Pages.OrderDetails
             if(table.Status){
                 total = 0;
                 serviceID = table.Services.LastOrDefault().Id;
-                Console.WriteLine(serviceID);
                 service = context.ServiceModel?.Include(p => p.ServiceLines).FirstOrDefault(p => p.Id == serviceID);
                 serviceLines = service.ServiceLines;
-                Console.WriteLine(service);
                 
 
                     foreach(var item in serviceLines){
@@ -55,8 +53,8 @@ namespace TodoApi.Pages.OrderDetails
                 }
             }
             else{
-                Console.WriteLine(table);
-                Console.WriteLine(service);
+    
+    
             }
         }
     }

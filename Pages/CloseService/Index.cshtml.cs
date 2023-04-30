@@ -36,7 +36,6 @@ namespace TodoApi.Pages.CloseService
             {
                 this.table = tableModel;
                 serviceID = table.Services.LastOrDefault().Id;
-                Console.WriteLine(serviceID);
                 service = context.ServiceModel?.Include(p => p.ServiceLines).FirstOrDefault(p => p.Id == serviceID);
             }
 
