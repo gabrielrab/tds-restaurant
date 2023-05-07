@@ -1,9 +1,9 @@
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Restaurant.Data.Data.Models.Shared;
 
-namespace Restaurant.Data.Data.Repository.Models
+namespace Restaurant.Data.Data.Models
 {
-    public class CategoryModel
+    public class CategoryModel : Entity
     {
         public CategoryModel(int id, string name, string description)
         {
@@ -13,8 +13,6 @@ namespace Restaurant.Data.Data.Repository.Models
         }
 
         public CategoryModel() { }
-
-        public int Id { get; set; }
 
         [Required(ErrorMessage = "O nome da categoria é obrigatório")]
         public string Name { get; set; } = default!;

@@ -5,23 +5,21 @@ namespace Restaurant.View.Pages.Configurations.Waiters
 {
     public class Delete : PageModel
     {
-        private readonly Context context;
-
-        public Delete(Context context)
+        public async Task<IActionResult> OnGetAsync(int id)
         {
-            this.context = context;
-        }
+            HttpClient client =
+                new() { BaseAddress = new Uri("https://localhost:5183/api/Waiter/") };
 
-        public IActionResult OnGet(int id)
-        {
-            var waiterModel = context.WaiterModel?.Find(id);
+            var response = await client.DeleteAsync($"/{id}");
 
-            if (waiterModel != null)
+            if (response.IsSuccessStatusCode)
             {
-                context.WaiterModel?.Remove(waiterModel);
-                context.SaveChanges();
+                return RedirectToPage("Index");
             }
-            return RedirectToPage("Index");
+            else
+            {
+                return Page();
+            }
         }
     }
 }

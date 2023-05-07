@@ -1,7 +1,4 @@
-using Restaurant.Data.Data.Repository;
-
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddDbContext<Context>();
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 

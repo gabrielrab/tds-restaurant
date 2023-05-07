@@ -5,23 +5,21 @@ namespace Restaurant.View.Pages.Configurations.Categories
 {
     public class Delete : PageModel
     {
-        private readonly Context context;
-
-        public Delete(Context context)
+        public async Task<IActionResult> OnGetAsync(int id)
         {
-            this.context = context;
-        }
+            HttpClient client =
+                new() { BaseAddress = new Uri("http://localhost:5183/api/Category/") };
 
-        public IActionResult OnGet(int id)
-        {
-            var categoryModel = context.CategoryModel?.Find(id);
+            var response = await client.DeleteAsync($"/{id}");
 
-            if (categoryModel != null)
+            if (response.IsSuccessStatusCode)
             {
-                context.CategoryModel?.Remove(categoryModel);
-                context.SaveChanges();
+                return RedirectToPage("Index");
             }
-            return RedirectToPage("Index");
+            else
+            {
+                return Page();
+            }
         }
     }
 }

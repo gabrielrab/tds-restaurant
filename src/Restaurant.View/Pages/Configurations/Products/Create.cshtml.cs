@@ -1,62 +1,62 @@
+using System.Text;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Restaurant.Data.Data.Repository.Models;
+using Newtonsoft.Json;
+using Restaurant.Data.Data.Models;
 
 namespace Restaurant.View.Pages.Configurations.Products
 {
     public class Create : PageModel
     {
-        private readonly Context context;
-
-        public Create(Context context)
-        {
-            this.context = context;
-            var categories = context.CategoryModel?.ToList();
-
-            foreach (var category in categories ?? new())
-            {
-                this.categories.Add(new SelectListItem(category.Name, category.Id.ToString()));
-            }
-        }
-
         [BindProperty]
         public ProductModel? product { get; set; }
 
-        public List<SelectListItem> categories { get; set; } = new();
+        public List<SelectListItem> Categories { get; set; } = new();
 
         [BindProperty]
         public String? SelectedCategory { get; set; }
 
-        public IActionResult OnPost()
+        public async Task OnGetAsync()
+        {
+            HttpClient client =
+                new() { BaseAddress = new Uri("http://localhost:5183/api/Category") };
+
+            var response = await client.GetAsync("");
+
+            var categories = JsonConvert.DeserializeObject<List<CategoryModel>>(
+                await response.Content.ReadAsStringAsync()
+            )!;
+
+            foreach (var category in categories ?? new())
+            {
+                Categories!.Add(new SelectListItem(category.Name, category.Id.ToString()));
+            }
+        }
+
+        public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
             {
                 return Page();
             }
 
-            int id = 0;
+            HttpClient client =
+                new() { BaseAddress = new Uri("http://localhost:5183/api/Product") };
 
-            var lastProduct = context.ProductModel?.OrderByDescending(p => p.Id).FirstOrDefault();
+            var jsonContent = JsonConvert.SerializeObject(product);
+            var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
-            var category = context.CategoryModel
-                ?.Where(c => c.Id == int.Parse(SelectedCategory!))
-                .FirstOrDefault();
+            var response = await client.PostAsync("", content);
 
-            if (lastProduct != null)
+            if (response.IsSuccessStatusCode)
             {
-                id = lastProduct.Id + 1;
-            }
-
-            if (product != null)
-            {
-                context.ProductModel?.Add(
-                    new ProductModel(id, product.Name, product.Description, product.Price, category)
-                );
-                context.SaveChanges();
                 return RedirectToPage("Index");
             }
-            return Page();
+            else
+            {
+                return Page();
+            }
         }
     }
 }

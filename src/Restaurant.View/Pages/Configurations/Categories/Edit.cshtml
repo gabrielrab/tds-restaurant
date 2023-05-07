@@ -1,13 +1,13 @@
 @page "{id:int}"
 @model Restaurant.View.Pages.Configurations.Categories.Edit
 @{
-    ViewData["Title"] = "Editando Mesa " + @Model.category!.Name;
+    ViewData["Title"] = "Editando Mesa " + @Model.Category!.Name;
 }
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 <form method="post">
     <div class="mb-6 mt-6">
-        <input type="text" asp-for="category!.Name" placeholder="Nome da categoria" class="
+        <input type="text" asp-for="Category!.Name" placeholder="Nome da categoria" class="
                         w-full
                         rounded-md
                         border
@@ -23,7 +23,7 @@
                         " />
     </div>
     <div class="mb-6 mt-6">
-        <input type="text" asp-for="category!.Description" placeholder="Descrição da categoria" class="
+        <input type="text" asp-for="Category!.Description" placeholder="Descrição da categoria" class="
                         w-full
                         rounded-md
                         border
@@ -39,8 +39,8 @@
                         " />
     </div>
     <div class="mb-10">
-        <input type="hidden" asp-for="category!.Id" />
-        <button type="submit" value="@Model.category.Id" class="
+        <input type="hidden" asp-for="Category!.Id" />
+        <button type="submit" value="@Model.Category.Id" class="
                         w-full
                         rounded-md
                         border

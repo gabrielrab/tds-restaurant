@@ -1,8 +1,9 @@
 using System.ComponentModel.DataAnnotations;
+using Restaurant.Data.Data.Models.Shared;
 
-namespace Restaurant.Data.Data.Repository.Models
+namespace Restaurant.Data.Data.Models
 {
-    public class WaiterModel
+    public class WaiterModel : Entity
     {
         public WaiterModel() { }
 
@@ -14,8 +15,6 @@ namespace Restaurant.Data.Data.Repository.Models
             Code = code;
             Phone = phone;
         }
-
-        public int Id { get; set; }
 
         [Required(ErrorMessage = "O nome do garçom é obrigatório")]
         public string FirstName { get; set; } = default!;

@@ -1,10 +1,9 @@
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Restaurant.Data.Data.Models.Shared;
 
-namespace Restaurant.Data.Data.Repository.Models
+namespace Restaurant.Data.Data.Models
 {
-    public class TableModel
+    public class TableModel : Entity
     {
         public TableModel() { }
 
@@ -15,8 +14,6 @@ namespace Restaurant.Data.Data.Repository.Models
             Status = status;
             StartAt = startAt;
         }
-
-        public int Id { get; set; }
 
         [Required(ErrorMessage = "O código da mesa é obrigatório")]
         public int Code { get; set; }

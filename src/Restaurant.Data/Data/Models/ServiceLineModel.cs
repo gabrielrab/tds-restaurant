@@ -1,11 +1,11 @@
-namespace Restaurant.Data.Data.Repository.Models
-{
-    public class ServiceLineModel
-    {
-        public ServiceLineModel() { }
+using System.Text.Json.Serialization;
+using Restaurant.Data.Data.Models.Shared;
 
+namespace Restaurant.Data.Data.Models
+{
+    public class ServiceLineModel : Entity
+    {
         public ServiceLineModel(
-            int id,
             int serviceId,
             int tableId,
             int waiterId,
@@ -13,7 +13,6 @@ namespace Restaurant.Data.Data.Repository.Models
             int Quantity
         )
         {
-            this.Id = id;
             this.ServiceId = serviceId;
             this.TableId = tableId;
             this.WaiterId = waiterId;
@@ -21,13 +20,23 @@ namespace Restaurant.Data.Data.Repository.Models
             this.Quantity = Quantity;
         }
 
-        public int Id { get; set; }
+        [JsonIgnore]
         public int ServiceId { get; set; }
+
+        [JsonIgnore]
         public ServiceModel? Service { get; set; }
+
+        [JsonIgnore]
         public int TableId { get; set; }
+
+        [JsonIgnore]
         public TableModel? Table { get; set; }
+
+        [JsonIgnore]
         public int ProductId { get; set; }
         public ProductModel? Product { get; set; }
+
+        [JsonIgnore]
         public int WaiterId { get; set; }
         public WaiterModel? Waiter { get; set; }
         public int Quantity { get; set; }

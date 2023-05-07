@@ -1,43 +1,38 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Restaurant.Data.Data.Repository.Models;
+using Restaurant.Data.Data.Models;
+using Newtonsoft.Json;
+using System.Text;
 
 namespace Restaurant.View.Pages.Configurations.Tables
 {
     public class Create : PageModel
     {
-        private readonly Context context;
-
-        public Create(Context context)
-        {
-            this.context = context;
-        }
-
         [BindProperty]
         public TableModel? Table { get; set; }
 
-        public IActionResult OnPost()
+        public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
             {
                 return Page();
             }
 
-            int id = 0;
-            var lastTable = context.TableModel?.OrderByDescending(p => p.Id).FirstOrDefault();
+            HttpClient client = new() { BaseAddress = new Uri("http://localhost:5183/api/Table") };
 
-            if (lastTable != null)
-            {
-                id = lastTable.Id + 1;
-            }
+            var jsonContent = JsonConvert.SerializeObject(Table);
+            var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
-            if (Table != null)
+            var response = await client.PostAsync("", content);
+
+            if (response.IsSuccessStatusCode)
             {
-                context.TableModel?.Add(new TableModel(id, Table.Code, false, null));
-                context.SaveChanges();
                 return RedirectToPage("Index");
             }
-            return Page();
+            else
+            {
+                return Page();
+            }
         }
     }
 }

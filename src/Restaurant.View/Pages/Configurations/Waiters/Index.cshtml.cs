@@ -1,22 +1,25 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Restaurant.Data.Data.Repository.Models;
+using Newtonsoft.Json;
+using Restaurant.Data.Data.Models;
 
 namespace Restaurant.View.Pages.Configurations.Waiters
 {
     public class Index : PageModel
     {
-        private readonly Context context;
-
-        public Index(Context context)
-        {
-            this.context = context;
-        }
-
         public List<WaiterModel> waiters = new();
 
-        public void OnGet()
+        public async Task OnGetAsync()
         {
-            waiters = context.WaiterModel?.ToList() ?? new List<WaiterModel>();
+            HttpClient client = new() { BaseAddress = new Uri("http://localhost:5183/api/Waiter") };
+
+            var response = await client.GetAsync("");
+
+            if (response.IsSuccessStatusCode)
+            {
+                waiters = JsonConvert.DeserializeObject<List<WaiterModel>>(
+                    await response.Content.ReadAsStringAsync()
+                )!;
+            }
         }
     }
 }

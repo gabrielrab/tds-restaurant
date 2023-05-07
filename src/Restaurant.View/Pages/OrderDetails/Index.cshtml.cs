@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
-using Restaurant.Data.Data.Repository.Models;
+using Newtonsoft.Json;
+using Restaurant.Data.Data.Models;
 
 namespace Restaurant.View.Pages.OrderDetails
 {
@@ -16,41 +16,38 @@ namespace Restaurant.View.Pages.OrderDetails
 
         public TableModel? table { get; set; }
 
-        private readonly Context context;
-
-        public OrderDetail(Context context)
+        public async Task OnGetAsync(int? id)
         {
-            this.context = context;
-        }
+            HttpClient client = new() { BaseAddress = new Uri("http://localhost:5183/api/") };
 
-        public void OnGet(int? id)
-        {
-            var tableModel = context.TableModel
-                ?.Include(p => p.Services)
-                .FirstOrDefault(p => p.Id == id);
+            var tableResponse = await client.GetAsync($"Table/{id}");
+
+            var tableModel = JsonConvert.DeserializeObject<TableModel>(
+                await tableResponse.Content.ReadAsStringAsync()
+            )!;
 
             if (tableModel != null)
             {
-                this.table = tableModel;
-                if (table.Status)
+                table = tableModel;
+                if (table.Status && tableModel?.Services?.Count > 0)
                 {
                     total = 0;
-                    serviceID = table.Services.LastOrDefault().Id;
-                    service = context.ServiceModel
-                        ?.Include(p => p.ServiceLines)
-                        .FirstOrDefault(p => p.Id == serviceID);
+                    var serviceResponse = await client.GetAsync(
+                        $"Service/{tableModel.Services!.LastOrDefault()!.Id}"
+                    );
+
+                    service = JsonConvert.DeserializeObject<ServiceModel>(
+                        await serviceResponse.Content.ReadAsStringAsync()
+                    )!;
+
                     serviceLines = service.ServiceLines;
 
-                    foreach (var item in serviceLines)
+                    foreach (var item in serviceLines ?? new())
                     {
-                        var Service_Lines = context.ServiceLines
-                            .Include(s => s.Product)
-                            .FirstOrDefault(s => s.ServiceId == serviceID);
-                        total += (Service_Lines.Product.Price * item.Quantity);
+                        total += item.Product!.Price * item.Quantity;
                     }
                 }
             }
-            else { }
         }
     }
 }

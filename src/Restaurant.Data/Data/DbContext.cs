@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using Restaurant.Data.Data.Repository.Models;
+using Restaurant.Data.Data.Models;
 
 namespace Restaurant.Data.Data.Repository
 {

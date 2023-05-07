@@ -1,45 +1,36 @@
+using System.Text;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Restaurant.Data.Data.Repository.Models;
+using Newtonsoft.Json;
+using Restaurant.Data.Data.Models;
 
-namespace Restaurant.View.Pages.Configurations.Categories
-{
-    public class Create : PageModel
-    {
-        private readonly Context context;
-
-        public Create(Context context)
-        {
-            this.context = context;
-        }
-
-        [BindProperty]
-        public CategoryModel? category { get; set; }
-
-        public IActionResult OnPost()
-        {
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
-
-            int id = 0;
-            var lastCategory = context.CategoryModel?.OrderByDescending(p => p.Id).FirstOrDefault();
-
-            if (lastCategory != null)
-            {
-                id = lastCategory.Id + 1;
-            }
-
-            if (category != null)
-            {
-                context.CategoryModel?.Add(
-                    new CategoryModel(id, category.Name, category.Description)
-                );
-                context.SaveChanges();
-                return RedirectToPage("Index");
-            }
-            return Page();
-        }
+namespace Restaurant.View.Pages.Configurations.Categories {
+  public class Create: PageModel {
+    [BindProperty]
+    public CategoryModel ? Category {get;
+      set;
     }
+
+    public async Task <IActionResult> OnPostAsync() {
+      if (!ModelState.IsValid) {
+        return Page();
+      }
+
+        HttpClient client = new()
+        {
+            BaseAddress = new Uri("http://localhost:5183/api/Category")
+        };
+
+            var jsonContent = JsonConvert.SerializeObject(Category);
+      var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+
+      var response = await client.PostAsync("", content);
+
+      if (response.IsSuccessStatusCode) {
+        return RedirectToPage("Index");
+      } else {
+        return Page();
+      }
+    }
+  }
 }

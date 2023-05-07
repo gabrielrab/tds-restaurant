@@ -1,45 +1,39 @@
+using System.Text;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Restaurant.Data.Data.Repository.Models;
+using Newtonsoft.Json;
+using Restaurant.Data.Data.Models;
 
 namespace Restaurant.View.Pages.Configurations.Categories
 {
     public class Edit : PageModel
     {
-        private readonly Context context;
-
-        public Edit(Context context)
-        {
-            this.context = context;
-        }
-
         [BindProperty]
-        public CategoryModel? category { get; set; }
+        public CategoryModel? Category { get; set; }
 
-        public void OnGet(int id)
-        {
-            var categoryModel = context.CategoryModel?.Find(id);
-
-            if (categoryModel != null)
-            {
-                this.category = categoryModel;
-            }
-        }
-
-        public IActionResult OnPost()
+        public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
             {
                 return Page();
             }
 
-            if (category != null)
+            HttpClient client =
+                new() { BaseAddress = new Uri("http://localhost:5183/api/Category") };
+
+            var jsonContent = JsonConvert.SerializeObject(Category);
+            var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+
+            var response = await client.PutAsync("", content);
+
+            if (response.IsSuccessStatusCode)
             {
-                context.CategoryModel?.Update(category);
-                context.SaveChanges();
                 return RedirectToPage("Index");
             }
-            return Page();
+            else
+            {
+                return Page();
+            }
         }
     }
 }

@@ -1,51 +1,14 @@
+using System.Text;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using Restaurant.Data.Data.Repository.Models;
+using Newtonsoft.Json;
+using Restaurant.Data.Data.Models;
 
 namespace Restaurant.View.Pages.Orders
 {
     public class Index : PageModel
     {
-        private readonly Context context;
-
-        public Index(Context context)
-        {
-            this.context = context;
-
-            var tables = context.TableModel?.ToList() ?? new List<TableModel>();
-            foreach (var table in tables ?? new())
-            {
-                this.tables.Add(
-                    new SelectListItem($"Mesa {table.Code.ToString()}", table.Id.ToString())
-                );
-            }
-
-            var waiters = context.WaiterModel?.ToList() ?? new List<WaiterModel>();
-            foreach (var waiter in waiters ?? new())
-            {
-                this.waiters.Add(
-                    new SelectListItem(
-                        $"{waiter.FirstName} {waiter.LastName}",
-                        waiter.Id.ToString()
-                    )
-                );
-            }
-
-            var products = context.ProductModel?.ToList() ?? new List<ProductModel>();
-            foreach (var product in products ?? new())
-            {
-                this.products.Add(
-                    new SelectListItem(
-                        $"{product.Name} - R${product.Price},00",
-                        product.Id.ToString()
-                    )
-                );
-            }
-        }
-
-        public List<SelectListItem> categories = new();
         public List<SelectListItem> products = new();
         public List<SelectListItem> waiters = new();
         public List<SelectListItem> tables = new();
@@ -62,81 +25,112 @@ namespace Restaurant.View.Pages.Orders
         [BindProperty]
         public int Quantity { get; set; }
 
-        public IActionResult OnPost()
+        public async Task OnGetAsync()
         {
-            var table = context.TableModel
-                ?.Include(p => p.Services)
-                .FirstOrDefault(p => p.Id == TableId);
+            HttpClient client = new() { BaseAddress = new Uri("http://localhost:5183/api/") };
+
+            var response = await client.GetAsync("Product");
+
+            var products = JsonConvert.DeserializeObject<List<ProductModel>>(
+                await response.Content.ReadAsStringAsync()
+            )!;
+
+            foreach (var product in products ?? new())
+            {
+                this.products!.Add(
+                    new SelectListItem(
+                        $"{product.Name} - R${product.Price},00",
+                        product.Id.ToString()
+                    )
+                );
+            }
+
+            response = await client.GetAsync("Waiter");
+
+            var waiters = JsonConvert.DeserializeObject<List<WaiterModel>>(
+                await response.Content.ReadAsStringAsync()
+            )!;
+
+            foreach (var waiter in waiters ?? new())
+            {
+                this.waiters!.Add(
+                    new SelectListItem(
+                        $"{waiter.FirstName} {waiter.LastName}",
+                        waiter.Id.ToString()
+                    )
+                );
+            }
+
+            response = await client.GetAsync("Table");
+
+            var tables = JsonConvert.DeserializeObject<List<TableModel>>(
+                await response.Content.ReadAsStringAsync()
+            )!;
+
+            foreach (var table in tables ?? new())
+            {
+                this.tables!.Add(new SelectListItem($"Mesa {table.Code}", table.Id.ToString()));
+            }
+        }
+
+        public async Task<IActionResult> OnPostAsync()
+        {
+            HttpClient client = new() { BaseAddress = new Uri("http://localhost:5183/api/") };
+
+            var tableResponse = await client.GetAsync($"Table/{TableId}");
+
+            var table = JsonConvert.DeserializeObject<TableModel>(
+                await tableResponse.Content.ReadAsStringAsync()
+            )!;
+
+            Console.WriteLine(table);
+
+            var service_id = table.Services?.LastOrDefault()?.Id ?? 1;
+
             if (table!.Status)
             {
-                var service_id = table.Services.LastOrDefault().Id;
-
-                int id = 1;
-                var lastService = context.ServiceLines
-                    ?.OrderByDescending(p => p.Id)
-                    .FirstOrDefault();
-                if (lastService != null)
-                {
-                    id = lastService.Id + 1;
-                }
-
-                Console.WriteLine(
-                    $"id: {id}, service_id: {service_id}, TableId: {TableId}, WaiterId: {WaiterId}, ProductId: {ProductId}, Quantity: {Quantity}"
+                var jsonContent = JsonConvert.SerializeObject(
+                    new ServiceLineModel(service_id, TableId, WaiterId, ProductId, Quantity)
                 );
+                var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
-                context.ServiceLines?.Add(
-                    new ServiceLineModel(id, service_id, TableId, WaiterId, ProductId, Quantity)
-                );
-                context.SaveChanges();
+                await client.PostAsync("ServiceLine", content);
             }
             else
             {
-                int service_id = 1;
-                var lastService = context.ServiceModel
-                    ?.OrderByDescending(p => p.Id)
-                    .FirstOrDefault();
-                if (lastService != null)
-                {
-                    service_id = lastService.Id + 1;
-                }
+                var jsonContent = JsonConvert.SerializeObject(
+                    new ServiceModel(TableId, DateTime.Now, null)
+                );
+                var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
-                Console.WriteLine(
-                    $"service_id: {service_id}, TableId: {TableId}, WaiterId: {WaiterId}, ProductId: {ProductId}, Quantity: {Quantity}"
-                );
-                context.ServiceModel?.Add(
-                    new ServiceModel(service_id, TableId, DateTime.Now, null)
-                );
+                var response = await client.PostAsync("Service", content);
+
+                Console.WriteLine(await response.Content.ReadAsStringAsync());
+
+                service_id = JsonConvert.DeserializeObject<int>(
+                    await response.Content.ReadAsStringAsync()
+                )!;
 
                 table.Status = true;
-                context.TableModel?.Update(table);
 
-                context.SaveChanges();
+                var jsonContentTable = JsonConvert.SerializeObject(table);
 
-                int serviceLineId = 1;
-                var lastServiceLine = context.ServiceLines
-                    ?.OrderByDescending(p => p.Id)
-                    .FirstOrDefault();
-                if (lastServiceLine != null)
-                {
-                    serviceLineId = lastServiceLine.Id + 1;
-                }
-
-                Console.WriteLine(
-                    $"id: {serviceLineId}, service_id: {service_id}, TableId: {TableId}, WaiterId: {WaiterId}, ProductId: {ProductId}, Quantity: {Quantity}"
+                var contentTable = new StringContent(
+                    jsonContentTable,
+                    Encoding.UTF8,
+                    "application/json"
                 );
-                context.ServiceLines?.Add(
-                    new ServiceLineModel(
-                        serviceLineId,
-                        service_id,
-                        TableId,
-                        WaiterId,
-                        ProductId,
-                        Quantity
-                    )
+
+                await client.PutAsync("Table", contentTable);
+
+                jsonContent = JsonConvert.SerializeObject(
+                    new ServiceLineModel(service_id, TableId, WaiterId, ProductId, Quantity)
                 );
-                context.SaveChanges();
+                content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+
+                await client.PostAsync("ServiceLine", content);
             }
-            return Page();
+            return Redirect($"OrderDetails/{table.Id}");
         }
     }
 }

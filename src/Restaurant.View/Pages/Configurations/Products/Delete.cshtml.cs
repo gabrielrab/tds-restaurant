@@ -5,23 +5,22 @@ namespace Restaurant.View.Pages.Configurations.Products
 {
     public class Delete : PageModel
     {
-        private readonly Context context;
-
-        public Delete(Context context)
+        public async Task<IActionResult> OnGetAsync(int id)
         {
-            this.context = context;
-        }
+            Console.WriteLine(id);
+            HttpClient client =
+                new() { BaseAddress = new Uri("http://localhost:5183/api/Product/") };
 
-        public IActionResult OnGet(int id)
-        {
-            var productModel = context.ProductModel?.Find(id);
+            var response = await client.DeleteAsync($"/{id}");
 
-            if (productModel != null)
+            if (response.IsSuccessStatusCode)
             {
-                context.ProductModel?.Remove(productModel);
-                context.SaveChanges();
+                return RedirectToPage("Index");
             }
-            return RedirectToPage("Index");
+            else
+            {
+                return Page();
+            }
         }
     }
 }

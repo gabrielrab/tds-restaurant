@@ -1,24 +1,26 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Restaurant.Data.Data.Repository.Models;
-using Microsoft.EntityFrameworkCore;
+using Restaurant.Data.Data.Models;
+using Newtonsoft.Json;
 
 namespace Restaurant.View.Pages.Configurations.Products
 {
     public class Index : PageModel
     {
-        private readonly Context context;
-
-        public Index(Context context)
-        {
-            this.context = context;
-        }
-
         public List<ProductModel> products = new();
 
-        public void OnGet()
+        public async Task OnGetAsync()
         {
-            products =
-                context.ProductModel?.Include(p => p.Category).ToList() ?? new List<ProductModel>();
+            HttpClient client =
+                new() { BaseAddress = new Uri("http://localhost:5183/api/Product") };
+
+            var response = await client.GetAsync("");
+
+            if (response.IsSuccessStatusCode)
+            {
+                products = JsonConvert.DeserializeObject<List<ProductModel>>(
+                    await response.Content.ReadAsStringAsync()
+                )!;
+            }
         }
     }
 }

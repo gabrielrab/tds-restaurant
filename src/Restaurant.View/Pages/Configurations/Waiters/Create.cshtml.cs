@@ -1,51 +1,39 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Restaurant.Data.Data.Repository.Models;
+using Restaurant.Data.Data.Models;
+using Newtonsoft.Json;
+using System.Text;
 
 namespace Restaurant.View.Pages.Configurations.Waiters
 {
     public class Create : PageModel
     {
-        private readonly Context context;
-
-        public Create(Context context)
-        {
-            this.context = context;
-        }
-
         [BindProperty]
         public WaiterModel? waiter { get; set; }
 
-        public IActionResult OnPost()
+        public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
             {
                 return Page();
             }
 
-            int id = 0;
-            var lastWaiter = context.WaiterModel?.OrderByDescending(p => p.Id).FirstOrDefault();
+            HttpClient client =
+                new() { BaseAddress = new Uri("http://localhost:5183/api/Category") };
 
-            if (lastWaiter != null)
-            {
-                id = lastWaiter.Id + 1;
-            }
+            var jsonContent = JsonConvert.SerializeObject(waiter);
+            var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
-            if (waiter != null)
+            var response = await client.PostAsync("", content);
+
+            if (response.IsSuccessStatusCode)
             {
-                context.WaiterModel?.Add(
-                    new WaiterModel(
-                        id,
-                        waiter.Code,
-                        waiter.FirstName,
-                        waiter.LastName,
-                        waiter.Phone
-                    )
-                );
-                context.SaveChanges();
                 return RedirectToPage("Index");
             }
-            return Page();
+            else
+            {
+                return Page();
+            }
         }
     }
 }

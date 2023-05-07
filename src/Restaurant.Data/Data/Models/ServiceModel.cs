@@ -1,21 +1,19 @@
-using System;
-using System.Collections.Generic;
+using System.Text.Json.Serialization;
+using Restaurant.Data.Data.Models.Shared;
 
-namespace Restaurant.Data.Data.Repository.Models
+namespace Restaurant.Data.Data.Models
 {
-    public class ServiceModel
+    public class ServiceModel : Entity
     {
         public ServiceModel() { }
 
-        public ServiceModel(int id, int tableId, DateTime StartAt, DateTime? EndAt)
+        public ServiceModel(int tableId, DateTime StartAt, DateTime? EndAt)
         {
-            this.Id = id;
             this.TableId = tableId;
             this.StartAt = StartAt;
             this.EndAt = EndAt;
         }
-
-        public int Id { get; set; }
+        [JsonIgnore]
         public int TableId { get; set; }
         public DateTime StartAt { get; set; } = default!;
 

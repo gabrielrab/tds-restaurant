@@ -1,68 +1,62 @@
+using System.Text;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using Restaurant.Data.Data.Repository.Models;
+using Newtonsoft.Json;
+using Restaurant.Data.Data.Models;
 
 namespace Restaurant.View.Pages.Configurations.Products
 {
     public class Edit : PageModel
     {
-        private readonly Context context;
-
-        public Edit(Context context)
-        {
-            this.context = context;
-
-            var categories = context.CategoryModel?.ToList();
-
-            foreach (var category in categories ?? new())
-            {
-                this.categories.Add(new SelectListItem(category.Name, category.Id.ToString()));
-            }
-        }
-
         [BindProperty]
-        public ProductModel? products { get; set; }
-
-        public List<SelectListItem> categories { get; set; } = new();
+        public ProductModel? Product { get; set; }
 
         [BindProperty]
         public String? SelectedCategory { get; set; }
 
-        public void OnGet(int id)
-        {
-            var productModel = context.ProductModel
-                ?.Include(p => p.Category)
-                .FirstOrDefault(p => p.Id == id);
+        public List<SelectListItem> Categories { get; set; } = new();
 
-            if (productModel != null)
+        public async Task OnGetAsync()
+        {
+            HttpClient client =
+                new() { BaseAddress = new Uri("http://localhost:5183/api/Category") };
+
+            var response = await client.GetAsync("");
+
+            var categories = JsonConvert.DeserializeObject<List<CategoryModel>>(
+                await response.Content.ReadAsStringAsync()
+            )!;
+
+            foreach (var category in categories ?? new())
             {
-                this.products = productModel;
-                this.SelectedCategory = productModel.Category?.Id.ToString();
+                Categories!.Add(new SelectListItem(category.Name, category.Id.ToString()));
             }
         }
 
-        public IActionResult OnPost()
+        public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
             {
                 return Page();
             }
 
-            var category = context.CategoryModel
-                ?.Where(c => c.Id == int.Parse(SelectedCategory!))
-                .FirstOrDefault();
+            HttpClient client =
+                new() { BaseAddress = new Uri("http://localhost:5183/api/Product") };
 
-            products!.Category = category;
+            var jsonContent = JsonConvert.SerializeObject(Product);
+            var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
-            if (products != null)
+            var response = await client.PutAsync("", content);
+
+            if (response.IsSuccessStatusCode)
             {
-                context.ProductModel?.Update(products);
-                context.SaveChanges();
                 return RedirectToPage("Index");
             }
-            return Page();
+            else
+            {
+                return Page();
+            }
         }
     }
 }

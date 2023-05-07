@@ -1,8 +1,9 @@
 using System.ComponentModel.DataAnnotations;
+using Restaurant.Data.Data.Models.Shared;
 
-namespace Restaurant.Data.Data.Repository.Models
+namespace Restaurant.Data.Data.Models
 {
-    public class ProductModel
+    public class ProductModel : Entity
     {
         public ProductModel() { }
 
@@ -20,8 +21,6 @@ namespace Restaurant.Data.Data.Repository.Models
             Price = price;
             Category = category;
         }
-
-        public int Id { get; set; }
 
         [Required(ErrorMessage = "O nome do produto é obrigatório")]
         public string Name { get; set; } = default!;
