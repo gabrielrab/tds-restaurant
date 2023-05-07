@@ -1,0 +1,10 @@
+@page
+@model Restaurant.View.Pages.Configurations.Index
+@{
+    ViewData["Title"] = "Configurações";
+}
+
+
+@await Component.InvokeAsync("ConfigurationMenu")
+
+<h1 class="text-center text-xl mt-10">Selecione uma das opções acima para continuar</h1>

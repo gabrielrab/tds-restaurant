@@ -1,0 +1,73 @@
+@page
+@model Restaurant.View.Pages.Configurations.Categories.Create
+@{
+    ViewData["Title"] = "Configurações - Categorias - Criar";
+}
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <div role="alert">
+    <div class="bg-red-500 text-white font-semibold rounded-t px-4 py-2">
+        <p>Por favor, corrija os seguintes erros:</p>
+
+    </div>
+    <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
+        <ul>
+            <li>Alguns campos podem estar vazios</li>
+        </ul>
+    </div>
+</div>
+}
+
+<form method="post">
+    <div class="mb-6 mt-6">
+        <input type="text" asp-for="category!.Name" placeholder="Nome da categoria" class="
+                        w-full
+                        rounded-md
+                        border
+                        bordder-[#E9EDF4]
+                        py-3
+                        px-5
+                        bg-[#FCFDFE]
+                        text-base text-body-color
+                        placeholder-[#ACB6BE]
+                        outline-none
+                        focus-visible:shadow-none
+                        focus:border-primary
+                        " />
+    </div>
+    <div class="mb-6 mt-6">
+        <input type="text" asp-for="category!.Description" placeholder="Descrição da categoria" class="
+                        w-full
+                        rounded-md
+                        border
+                        bordder-[#E9EDF4]
+                        py-3
+                        px-5
+                        bg-[#FCFDFE]
+                        text-base text-body-color
+                        placeholder-[#ACB6BE]
+                        outline-none
+                        focus-visible:shadow-none
+                        focus:border-primary
+                        " />
+    </div>
+    <div class="mb-10">
+        <input type="submit" value="Criar Categoria" class="
+                        w-full
+                        rounded-md
+                        border
+                        bordder-primary
+                        py-3
+                        px-5
+                        bg-indigo-500 
+                        hover:bg-indigo-600 
+                        text-white 
+                        font-semibold
+                        cursor-pointer
+                        hover:bg-opacity-90
+                        transition
+                        " />
+    </div>
+</form>

@@ -38,7 +38,7 @@ Esse é um projeto de cunho académico realizado na disciplina de Tecnologia em 
 ├── Program.cs // arquivo de configuração
 ├── Properties
 │   └── launchSettings.json
-├── TodoApi.csproj
+├── Restaurant.View.csproj
 ├── app.db // arquivo de banco de dados SQLite
 ├── appsettings.json
 ├── readme.md
