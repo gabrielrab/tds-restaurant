@@ -7,49 +7,139 @@ Esse é um projeto de cunho académico realizado na disciplina de Tecnologia em 
 ### Estrutura de pastas do projeto
 
 ```javascript
-.
-├── Controllers
-├── Data // pasta com as interfaces com o banco de dados
-│   └── Repository
-│       ├── DbContext.cs
-│       └── Models // pasta com as models do projeto
 ├── Makefile
-├── Migrations // pasta onde é localizado as migrations executadas no projeto
-├── Pages // pasta com todas as páginas a renderizadas no projeto
-│   ├── CloseService
-│   ├── Components
-│   │   ├── ConfigurationMenu
-│   │   ├── Footer
-│   │   └── Header
-│   ├── Configurations
-│   │   ├── Categories
-│   │   ├── Index.cshtml
-│   │   ├── Index.cshtml.cs
-│   │   ├── Products
-│   │   ├── Tables
-│   │   └── Waiters
-│   ├── Index.cshtml
-│   ├── Index.cshtml.cs
-│   ├── OrderDetails
-│   ├── Orders
-│   ├── Shared
-│   ├── _Imports.razor
-│   └── _ViewStart.cshtml
-├── Program.cs // arquivo de configuração
-├── Properties
-│   └── launchSettings.json
-├── Restaurant.View.csproj
-├── app.db // arquivo de banco de dados SQLite
-├── appsettings.json
+├── Restaurant.sln
+├── app.db
 ├── readme.md
-├── tailwind.config.js // arquivo da biblioteca de componentes Tailwind
-└── wwwroot
+└── src
+    ├── Restaurant.Api
+    │   ├── Controllers
+    │   │   ├── CategoryController
+    │   │   │   └── CategoryController.cs
+    │   │   ├── ProductController
+    │   │   │   └── ProductController.cs
+    │   │   ├── ServiceController
+    │   │   │   └── ServiceController.cs
+    │   │   ├── ServiceLineController
+    │   │   │   └── ServiceLineController.cs
+    │   │   ├── TableController
+    │   │   │   └── TableController.cs
+    │   │   └── WaiterController
+    │   │       └── WaiterController.cs
+    │   ├── Program.cs
+    │   ├── Properties
+    │   │   └── launchSettings.json
+    │   ├── Restaurant.Api.csproj
+    │   ├── appsettings.Development.json
+    │   └── appsettings.json
+    ├── Restaurant.Data
+    │   ├── Data
+    │   │   ├── DbContext.cs
+    │   │   ├── Models
+    │   │   │   ├── CategoryModel.cs
+    │   │   │   ├── ProductModel.cs
+    │   │   │   ├── ServiceLineModel.cs
+    │   │   │   ├── ServiceModel.cs
+    │   │   │   ├── Shared
+    │   │   │   │   └── Entity.cs
+    │   │   │   ├── TableModel.cs
+    │   │   │   └── WaiterModel.cs
+    │   │   └── Repository
+    │   │       ├── CategoryRepository.cs
+    │   │       ├── ProductRepository.cs
+    │   │       ├── ServiceLineRepository.cs
+    │   │       ├── ServiceRepository.cs
+    │   │       ├── Shared
+    │   │       │   ├── IRepositoryBase.cs
+    │   │       │   └── RepositoryBase.cs
+    │   │       ├── TableRepository.cs
+    │   │       └── WaiterRepository.cs
+    │   ├── Migrations
+    │   │   ├── 20230417125107_InitialCreation.Designer.cs
+    │   │   ├── 20230417125107_InitialCreation.cs
+    │   │   └── ContextModelSnapshot.cs
+    │   └── Restaurant.Data.csproj
+    └── Restaurant.View
+        ├── Pages
+        │   ├── CloseService
+        │   │   ├── Index.cshtml
+        │   │   └── Index.cshtml.cs
+        │   ├── Components
+        │   │   ├── ConfigurationMenu
+        │   │   │   ├── ConfigurationMenu.cs
+        │   │   │   └── Default.cshtml
+        │   │   ├── Footer
+        │   │   │   ├── Default.cshtml
+        │   │   │   └── Footer.cs
+        │   │   └── Header
+        │   │       ├── Default.cshtml
+        │   │       └── Header.cs
+        │   ├── Configurations
+        │   │   ├── Categories
+        │   │   │   ├── Create.cshtml
+        │   │   │   ├── Create.cshtml.cs
+        │   │   │   ├── Delete.cshtml
+        │   │   │   ├── Delete.cshtml.cs
+        │   │   │   ├── Edit.cshtml
+        │   │   │   ├── Edit.cshtml.cs
+        │   │   │   ├── Index.cshtml
+        │   │   │   └── Index.cshtml.cs
+        │   │   ├── Index.cshtml
+        │   │   ├── Index.cshtml.cs
+        │   │   ├── Products
+        │   │   │   ├── Create.cshtml
+        │   │   │   ├── Create.cshtml.cs
+        │   │   │   ├── Delete.cshtml
+        │   │   │   ├── Delete.cshtml.cs
+        │   │   │   ├── Edit.cshtml
+        │   │   │   ├── Edit.cshtml.cs
+        │   │   │   ├── Index.cshtml
+        │   │   │   └── Index.cshtml.cs
+        │   │   ├── Tables
+        │   │   │   ├── Create.cshtml
+        │   │   │   ├── Create.cshtml.cs
+        │   │   │   ├── Delete.cshtml
+        │   │   │   ├── Delete.cshtml.cs
+        │   │   │   ├── Edit.cshtml
+        │   │   │   ├── Edit.cshtml.cs
+        │   │   │   ├── Index.cshtml
+        │   │   │   └── Index.cshtml.cs
+        │   │   └── Waiters
+        │   │       ├── Create.cshtml
+        │   │       ├── Create.cshtml.cs
+        │   │       ├── Delete.cshtml
+        │   │       ├── Delete.cshtml.cs
+        │   │       ├── Edit.cshtml
+        │   │       ├── Edit.cshtml.cs
+        │   │       ├── Index.cshtml
+        │   │       └── Index.cshtml.cs
+        │   ├── Index.cshtml
+        │   ├── Index.cshtml.cs
+        │   ├── OrderDetails
+        │   │   ├── Index.cshtml
+        │   │   └── Index.cshtml.cs
+        │   ├── Orders
+        │   │   ├── Index.cshtml
+        │   │   └── Index.cshtml.cs
+        │   ├── Shared
+        │   │   └── _Layout.cshtml
+        │   ├── _Imports.razor
+        │   └── _ViewStart.cshtml
+        ├── Program.cs
+        ├── Properties
+        │   └── launchSettings.json
+        ├── Restaurant.View.csproj
+        ├── appsettings.json
+        ├── tailwind.config.js
+        └── wwwroot
+            └── images
+                └── logo.png
 
 ```
 
 ### Como rodar o projeto
 
 - O primeiro passo é verificar a existência dos arquivos `app.db`, `app.db-shm`, `app.db-wal`. Caso os mesmos existam é necessário excluir.
-- O segundo passo é semelhante ao primeiro, porém é realizado na pasta `Migrations`. Nela deve-se realizar a exclusão de todos arquivos com a exceção do arquivo `.gitkeep`
-- O próximo passo é executar as _migrations_ e para isso primeiro você deve executar o comando `dotnet ef migrations add Inital` e em seguida o comando `dotnet ef database update`.
-- Por último utilize o comando `dotnet watch run` ou apenas `dotnet run` para iniciar a aplicação.
+- O segundo passo é semelhante ao primeiro, porém é realizado na pasta `src/Restaurant.Data/Migrations`. Nela deve-se realizar a exclusão de todos arquivos com a exceção do arquivo `.gitkeep`
+- O próximo passo é executar as _migrations_ e para isso primeiro você deve executar o comando `dotnet ef migrations add Inital` e em seguida o comando `dotnet ef database update` dentro da pasta `src/Restaurant.Data`.
+- Por último utilize o comando `dotnet watch run` dentro da pasta `src/Restaurant.Api` ou apenas `dotnet run` para iniciar a aplicação e também na pasta `src/Restaurant.View` que irá inicializar o frontend.
