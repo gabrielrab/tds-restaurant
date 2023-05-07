@@ -11,7 +11,7 @@ namespace Restaurant.View.Pages.Configurations.Products
             HttpClient client =
                 new() { BaseAddress = new Uri("http://localhost:5183/api/Product/") };
 
-            var response = await client.DeleteAsync($"/{id}");
+            var response = await client.DeleteAsync($"{id}");
 
             if (response.IsSuccessStatusCode)
             {

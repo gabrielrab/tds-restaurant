@@ -11,7 +11,18 @@ namespace Restaurant.View.Pages.Configurations.Waiters
         [BindProperty]
         public WaiterModel? Waiter { get; set; }
 
-        public async Task<IActionResult> OnPutAsync()
+        public async Task OnGetAsync(int id)
+        {
+            HttpClient client = new() { BaseAddress = new Uri("http://localhost:5183/api/") };
+
+            var waiterResponse = await client.GetAsync($"Waiter/{id}");
+
+            Waiter = JsonConvert.DeserializeObject<WaiterModel>(
+                await waiterResponse.Content.ReadAsStringAsync()
+            )!;
+        }
+
+        public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
             {

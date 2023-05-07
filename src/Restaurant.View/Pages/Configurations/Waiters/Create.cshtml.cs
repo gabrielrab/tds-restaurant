@@ -18,8 +18,7 @@ namespace Restaurant.View.Pages.Configurations.Waiters
                 return Page();
             }
 
-            HttpClient client =
-                new() { BaseAddress = new Uri("http://localhost:5183/api/Category") };
+            HttpClient client = new() { BaseAddress = new Uri("http://localhost:5183/api/Waiter") };
 
             var jsonContent = JsonConvert.SerializeObject(waiter);
             var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");

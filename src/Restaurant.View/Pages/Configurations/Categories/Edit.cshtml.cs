@@ -11,6 +11,18 @@ namespace Restaurant.View.Pages.Configurations.Categories
         [BindProperty]
         public CategoryModel? Category { get; set; }
 
+        public async Task OnGetAsync(int id)
+        {
+            HttpClient client =
+                new() { BaseAddress = new Uri("http://localhost:5183/api/Category/") };
+
+            var response = await client.GetAsync(id.ToString());
+
+            Category = JsonConvert.DeserializeObject<CategoryModel>(
+                await response.Content.ReadAsStringAsync()
+            )!;
+        }
+
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)

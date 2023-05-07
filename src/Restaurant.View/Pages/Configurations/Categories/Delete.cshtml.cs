@@ -10,7 +10,7 @@ namespace Restaurant.View.Pages.Configurations.Categories
             HttpClient client =
                 new() { BaseAddress = new Uri("http://localhost:5183/api/Category/") };
 
-            var response = await client.DeleteAsync($"/{id}");
+            var response = await client.DeleteAsync($"{id}");
 
             if (response.IsSuccessStatusCode)
             {

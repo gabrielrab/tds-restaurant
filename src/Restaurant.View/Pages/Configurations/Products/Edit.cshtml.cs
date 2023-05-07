@@ -17,12 +17,11 @@ namespace Restaurant.View.Pages.Configurations.Products
 
         public List<SelectListItem> Categories { get; set; } = new();
 
-        public async Task OnGetAsync()
+        public async Task OnGetAsync(int id)
         {
-            HttpClient client =
-                new() { BaseAddress = new Uri("http://localhost:5183/api/Category") };
+            HttpClient client = new() { BaseAddress = new Uri("http://localhost:5183/api/") };
 
-            var response = await client.GetAsync("");
+            var response = await client.GetAsync("Category");
 
             var categories = JsonConvert.DeserializeObject<List<CategoryModel>>(
                 await response.Content.ReadAsStringAsync()
@@ -32,6 +31,12 @@ namespace Restaurant.View.Pages.Configurations.Products
             {
                 Categories!.Add(new SelectListItem(category.Name, category.Id.ToString()));
             }
+
+            var productResponse = await client.GetAsync($"Product/{id}");
+
+            Product = JsonConvert.DeserializeObject<ProductModel>(
+                await productResponse.Content.ReadAsStringAsync()
+            )!;
         }
 
         public async Task<IActionResult> OnPostAsync()
