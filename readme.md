@@ -142,5 +142,5 @@ Esse é um projeto de cunho académico realizado na disciplina de Tecnologia em 
 - O primeiro passo é verificar a existência dos arquivos `app.db`, `app.db-shm`, `app.db-wal`. Caso os mesmos existam é necessário excluir.
 - O segundo passo é utilizar o comando `dotnet restore` na raiz da solução para baixar as dependências de todos os projetos.
 - O segundo passo é semelhante ao primeiro, porém é realizado na pasta `src/Restaurant.Data/Migrations`. Nela deve-se realizar a exclusão de todos arquivos com a exceção do arquivo `.gitkeep`
-- O próximo passo é executar as _migrations_ e para isso primeiro você deve executar o comando `dotnet ef migrations add Inital` e em seguida o comando `dotnet ef database update -s ../Restaurant.Api` dentro da pasta `src/Restaurant.Data`.
+- O próximo passo é executar as _migrations_ e para isso você precisa rodar o comando `dotnet ef database update -s ../Restaurant.Api` dentro da pasta `src/Restaurant.Data`.
 - Por último utilize o comando `dotnet watch run` dentro da pasta `src/Restaurant.Api` ou apenas `dotnet run` para iniciar a aplicação e também na pasta `src/Restaurant.View` que irá inicializar o frontend.
