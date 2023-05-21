@@ -1,8 +1,8 @@
-version: '3'
+version: "3"
 services:
   db:
     image: postgres
-    restart: always
+    # restart: always
     environment:
       POSTGRES_USER: utfpr
       POSTGRES_PASSWORD: admin123
@@ -14,15 +14,14 @@ services:
     build:
       context: ./src
       dockerfile: Dockerfile
-    restart: always
+    # restart: always
     depends_on:
       - db
     ports:
-      - 5000:80
-    volumes:
-      - ./src/Restaurant.Api:/app
-      - ./src/Restaurant.Data:/app/Restaurant.Data
+      - 5001:5001
+    # volumes:
+    #   - ./src/Restaurant.Api:/app/Restaurant.Api
+    #   - ./src/Restaurant.Data:/app/Restaurant.Data
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__DefaultConnection=Host=localhost:5432;Database=utfpr;Username=utfpr;Password=admin123
-
