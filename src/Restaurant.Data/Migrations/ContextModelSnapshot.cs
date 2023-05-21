@@ -3,11 +3,12 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Restaurant.Data.Data.Repository;
 
 #nullable disable
 
-namespace TodoApi.Migrations
+namespace Restaurant.Data.Migrations
 {
     [DbContext(typeof(Context))]
     partial class ContextModelSnapshot : ModelSnapshot
@@ -15,46 +16,54 @@ namespace TodoApi.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "7.0.4");
+            modelBuilder
+                .HasAnnotation("ProductVersion", "7.0.5")
+                .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            modelBuilder.Entity("TodoApi.Data.Repository.Models.CategoryModel", b =>
+            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("Restaurant.Data.Data.Models.CategoryModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
                     b.ToTable("CategoryModel");
                 });
 
-            modelBuilder.Entity("TodoApi.Data.Repository.Models.ProductModel", b =>
+            modelBuilder.Entity("Restaurant.Data.Data.Models.ProductModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int?>("CategoryId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<double>("Price")
-                        .HasColumnType("REAL");
+                        .HasColumnType("double precision");
 
                     b.HasKey("Id");
 
@@ -63,26 +72,28 @@ namespace TodoApi.Migrations
                     b.ToTable("ProductModel");
                 });
 
-            modelBuilder.Entity("TodoApi.Data.Repository.Models.ServiceLineModel", b =>
+            modelBuilder.Entity("Restaurant.Data.Data.Models.ServiceLineModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("ProductId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.Property<int>("Quantity")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.Property<int>("ServiceId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.Property<int>("TableId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.Property<int>("WaiterId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -97,20 +108,22 @@ namespace TodoApi.Migrations
                     b.ToTable("ServiceLines");
                 });
 
-            modelBuilder.Entity("TodoApi.Data.Repository.Models.ServiceModel", b =>
+            modelBuilder.Entity("Restaurant.Data.Data.Models.ServiceModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime?>("EndAt")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTime>("StartAt")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("TableId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -119,82 +132,86 @@ namespace TodoApi.Migrations
                     b.ToTable("ServiceModel");
                 });
 
-            modelBuilder.Entity("TodoApi.Data.Repository.Models.TableModel", b =>
+            modelBuilder.Entity("Restaurant.Data.Data.Models.TableModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("Code")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.Property<DateTime?>("StartAt")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<bool>("Status")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("boolean");
 
                     b.HasKey("Id");
 
                     b.ToTable("TableModel");
                 });
 
-            modelBuilder.Entity("TodoApi.Data.Repository.Models.WaiterModel", b =>
+            modelBuilder.Entity("Restaurant.Data.Data.Models.WaiterModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("Code")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<string>("Phone")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
                     b.ToTable("WaiterModel");
                 });
 
-            modelBuilder.Entity("TodoApi.Data.Repository.Models.ProductModel", b =>
+            modelBuilder.Entity("Restaurant.Data.Data.Models.ProductModel", b =>
                 {
-                    b.HasOne("TodoApi.Data.Repository.Models.CategoryModel", "Category")
+                    b.HasOne("Restaurant.Data.Data.Models.CategoryModel", "Category")
                         .WithMany("Products")
                         .HasForeignKey("CategoryId");
 
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("TodoApi.Data.Repository.Models.ServiceLineModel", b =>
+            modelBuilder.Entity("Restaurant.Data.Data.Models.ServiceLineModel", b =>
                 {
-                    b.HasOne("TodoApi.Data.Repository.Models.ProductModel", "Product")
+                    b.HasOne("Restaurant.Data.Data.Models.ProductModel", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TodoApi.Data.Repository.Models.ServiceModel", "Service")
+                    b.HasOne("Restaurant.Data.Data.Models.ServiceModel", "Service")
                         .WithMany("ServiceLines")
                         .HasForeignKey("ServiceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TodoApi.Data.Repository.Models.TableModel", "Table")
+                    b.HasOne("Restaurant.Data.Data.Models.TableModel", "Table")
                         .WithMany()
                         .HasForeignKey("TableId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TodoApi.Data.Repository.Models.WaiterModel", "Waiter")
+                    b.HasOne("Restaurant.Data.Data.Models.WaiterModel", "Waiter")
                         .WithMany()
                         .HasForeignKey("WaiterId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -209,9 +226,9 @@ namespace TodoApi.Migrations
                     b.Navigation("Waiter");
                 });
 
-            modelBuilder.Entity("TodoApi.Data.Repository.Models.ServiceModel", b =>
+            modelBuilder.Entity("Restaurant.Data.Data.Models.ServiceModel", b =>
                 {
-                    b.HasOne("TodoApi.Data.Repository.Models.TableModel", "Table")
+                    b.HasOne("Restaurant.Data.Data.Models.TableModel", "Table")
                         .WithMany("Services")
                         .HasForeignKey("TableId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -220,17 +237,17 @@ namespace TodoApi.Migrations
                     b.Navigation("Table");
                 });
 
-            modelBuilder.Entity("TodoApi.Data.Repository.Models.CategoryModel", b =>
+            modelBuilder.Entity("Restaurant.Data.Data.Models.CategoryModel", b =>
                 {
                     b.Navigation("Products");
                 });
 
-            modelBuilder.Entity("TodoApi.Data.Repository.Models.ServiceModel", b =>
+            modelBuilder.Entity("Restaurant.Data.Data.Models.ServiceModel", b =>
                 {
                     b.Navigation("ServiceLines");
                 });
 
-            modelBuilder.Entity("TodoApi.Data.Repository.Models.TableModel", b =>
+            modelBuilder.Entity("Restaurant.Data.Data.Models.TableModel", b =>
                 {
                     b.Navigation("Services");
                 });

@@ -1,9 +1,28 @@
-version: "3"
-
+version: '3'
 services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: utfpr
+      POSTGRES_PASSWORD: admin123
+      POSTGRES_DB: restaurant-db
+    volumes:
+      - ./data:/var/lib/postgresql/data
+
   api:
-    container_name: api
     build:
       context: ./src
+      dockerfile: Dockerfile
+    restart: always
+    depends_on:
+      - db
     ports:
-      - 5001:5001
+      - 5000:80
+    volumes:
+      - ./src/Restaurant.Api:/app
+      - ./src/Restaurant.Data:/app/Restaurant.Data
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=localhost:5432;Database=utfpr;Username=utfpr;Password=admin123
+
