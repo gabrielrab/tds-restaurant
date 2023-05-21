@@ -1,0 +1,9 @@
+version: "3"
+
+services:
+  api:
+    container_name: api
+    build:
+      context: ./src
+    ports:
+      - 5001:5001
